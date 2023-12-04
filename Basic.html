@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta title="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7fafc;
+            color: #2d3748;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #4299e1;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        header h1 {
+            color: #ffffff;
+        }
+
+        nav {
+            background-color: #4299e1;
+            padding: 1rem;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #ffffff;
+        }
+
+        #fetchButton {
+            background-color: #4a5568;
+            color: #ffffff;
+            transition: background-color 0.3s ease;
+        }
+
+        #fetchButton:hover {
+            background-color: #2d3748;
+        }
+
+        #products {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .product-card {
+            width: 300px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: scale(1.05);
+        }
+
+        .product-image {
+            height: 150px;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-details {
+            padding: 15px;
+        }
+
+        .product-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .product-description {
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .product-price {
+            font-size: 16px;
+            font-weight: bold;
+            color: #2d3748;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        footer {
+            background-color: #4299e1;
+            padding: 1rem;
+            text-align: center;
+            color: #ffffff;
+        }
+    </style>
+
+    <title>WP MiniProject</title>
+</head>
+<body>
+    <header>
+        <h1>Sample</h1>
+    </header>
+
+    <nav class="flex justify-between p-6 bg-blue-500 shadow-md">
+        <div><a href="/" class="text-lg">Home</a></div>
+        <div class="flex space-x-12">
+            <div><a href="/" class="text-white">Products</a></div>
+            <div><a href="/" class="text-white">About</a></div>
+        </div>
+    </nav>
+    
+    <div class="w-full flex justify-center mt-12">
+        <button id="fetchButton" class="bg-blue-700 text-white px-3 py-2 rounded-lg">
+            Click to load products
+        </button>
+    </div>
+    
+    <main>
+        <h2>Welcome to Our Blog!</h2>
+        <p>Discover the latest trends, insightful articles, and exciting updates in the world of fashion, technology, and lifestyle.  
+            Explore our blog to stay in the loop with what's hot and happening.</p>
+        <p>Don't forget to check out our featured products! 
+            Click the button to load a curated selection of must-have items, complete with stunning images, detailed descriptions, and prices. 
+            Happy reading and happy shopping!</p>
+    </main>
+
+    <div id="products" class="flex justify-around flex-wrap">
+        <!-- Product cards will be dynamically added here -->
+    </div>
+
+    <footer>
+        <p>&copy; 2023 Sample. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const button = document.getElementById("fetchButton");
+    console.log(button);
+    button.addEventListener("click", getData);
+   
+    function getData(){
+        fetch('https://dummyjson.com/products?limit=3')
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            let products = document.getElementById('products');
+            products.innerHTML = `
+            <div class="flex px-12 justify-center items-center space-x-6 mt-12">
+
+            <div class="flex-1 bg-gray-200 p-4 h-96">
+                <img src="${data.products[0].thumbnail}" alt="" class="w-full h-48 object-cover">
+                <div class="mt-6">
+                <h1 class="text-lg font-bold">${data.products[0].title}</h1>
+                <p class="text-sm">${data.products[0].description}</p>
+                <p class="text-sm">$${data.products[0].price}</p>    
+                            </div>
+            </div>
+            <div class="flex-1 bg-gray-200 p-4 h-96">
+                <img src="${data.products[1].thumbnail}" alt="" class="w-full h-48 object-cover">
+                <div class="mt-6">
+                <h1 class="text-lg font-bold">${data.products[1].title}</h1>
+                <p class="text-sm">${data.products[1].description}</p>
+                <p class="text-sm">$${data.products[1].price}</p>
+                </div>
+            </div>
+            <div class="flex-1 bg-gray-200 p-4 h-96">
+                <img src="${data.products[2].thumbnail}" alt="" class="w-full h-48 object-cover">
+                <div class="mt-6">
+
+                <h1 class="text-lg font-bold">${data.products[2].title}</h1>
+                <p class="text-sm">${data.products[2].description}</p>
+                <p class="text-sm">$${data.products[2].price}</p>
+                    </div>
+                </div>
+            </div>
+                `
+        })
+    }
+
+    </script>
+</body>
+</html>
